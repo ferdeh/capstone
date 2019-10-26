@@ -1,0 +1,195 @@
+---
+title: "capstone"
+author: "Ferdiansyah"
+date: "10/24/2019"
+output: html_document
+runtime : shiny
+---
+
+
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Select Input
+```{r select-input}
+selectInput(inputId='ExampleDropdown', label = 'please make a selection',
+            choices = list('value1'=1,
+                           'value2'=2,
+                           'value3'=3
+                           )
+            )
+
+
+```
+
+```{r print-select-input}
+renderPrint(input$plotcolumn)
+
+```
+
+
+```{r slider-input}
+
+sliderInput(
+  inputId ='slider1', label= 'this is label',
+  min = 0 , max = 10, value=3
+)
+
+sliderInput(
+  inputId ='slider2', label= 'this is label',
+  min = 0 , max = 10, value=c(3,6)
+)
+
+
+```
+
+## Check Box Input
+
+```{r checkbox-input}
+checkboxInput(inputId = 'checkbox1',
+              label = 'single check box'
+)
+
+checkboxGroupInput(
+  inputId = 'checkbox2',
+  label = 'multiple checkbox',
+  choices = list('a', 'b','c')
+)
+```
+
+## Radio Button
+
+```{r radio-buttons}
+radioButtons(inputId = 'Radio1',
+             label = 'Radio',
+             choices = list('a', 'b','c')
+  
+)
+
+```
+
+
+## date input
+```{r date-input}
+dateInput(inputId= 'dateinput',
+          label = 'date selector'
+)
+
+dateRangeInput(inputId='datechoice',
+               label = 'pilih tanggal'
+               )
+dateRangeInput(inputId='datechoice2',
+               label = 'pilih tanggal',
+               format = 'dd-MM-yyyy'
+               )
+```
+
+## Text Input
+```{r text-input}
+textInput(inputId= 'Textsample',
+          label='isi dengan text')
+
+textAreaInput(inputId= 'Textsample2',
+          label='isi dengan text')
+
+passwordInput(inputId= 'Textsample3',
+          label='isi dengan text')
+```
+
+## Render Text 
+
+```{r input test}
+textInput(inputId= 'Textsample4',
+          label='isi dengan text')
+```
+
+```{r render-print}
+renderPrint(input$Textsample4)
+
+renderText(input$Textsample4)
+
+```
+
+## Render Data
+```{r render-data}
+renderTable(mtcars)
+
+renderDataTable(mtcars)
+
+DT::renderDataTable(mtcars)
+
+```
+
+## ploting
+```{r render-plot}
+renderPlot(hist(mtcars$mpg))
+
+```
+
+```{r plot-option}
+selectInput(inputId='plotcolumn', label='please choice column',
+            choices=names(mtcars))
+
+sliderInput(inputId='breakinput', label='chose number break',
+            min=5, max=50, value=30)
+
+```
+
+```{r print-select-input2}
+renderPrint(input$breakinput)
+
+```
+
+```{r user-plot}
+
+head(mtcars[,'mpg'])
+```
+
+```{r}
+
+renderPlot(hist(mtcars[,input$plotcolumn], breaks = input$breakinput ))
+```
+
+```{r}
+library(plotly)
+p <- plot_ly(x = ~rnorm(50), type = "histogram")
+
+p
+```
+
+```{r}
+renderPlotly(plot_ly(mtcars, x = ~mtcars[,input$plotcolumn], y = ~wt)
+  
+)
+
+```
+
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
